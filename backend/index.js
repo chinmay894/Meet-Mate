@@ -36,6 +36,7 @@ app.use(express.json());  // before intering post,get route  we wnat our req obj
 app.get("/",function(req,res){   // "/"  is request and function is a what action to perform for that request
   res.send("welcome to the meetmate backend ")
   console.log(req.url)
+
 })
 
 //route2 to accept the data from react and print in terminal then give a response 
@@ -59,6 +60,29 @@ app.post("/profile",async function(req,res){
       res.send("error:cant save data right now ")
   }
 });
+
+
+//route 3 :search request   ,get /search
+
+app.get("/search",async function(req,res){
+console.log("route exicuted successfully ");
+console.log(req.query);
+console.log(req.url)
+const term =req.query.term;
+const sql=`SELECT name,interest,learning FROM users WHERE learning ILIKE $1 OR interest ILIKE $2`
+const values =[`%${term}%`,`%${term}%`]
+try{
+const result = await client.query(sql,values)
+res.send(result.rows)
+console.log(result.rows)
+console.log(`your request for ${req.query.term} reached successfully `)
+
+}
+catch(err){
+
+console.log("failed to retrive data from database ")
+console.log(err)}
+})
 
 app.listen(3000) // who ever will come to port 3000 with the request of /(home page or entry point)  give this response to him 
 //who ever try to reaach at http//localhost3000  he will get this response 
