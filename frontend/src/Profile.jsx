@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import "./profile.css"
 
 
 function Profile(props){
@@ -14,18 +14,28 @@ function Profile(props){
 
     
     return(<>
+    <div className="profile-card">
         <h1>profile page</h1><br></br>
-        <label>Name:</label>
-        <input type="text" placeholder="enter username" value={card.name} onChange={(e) => setCard(previous => ({ ...previous, name: e.target.value }))} ></input>
-        {/* //<input type="text" placeholder="enter username" onChange={(e)=>setName(e.target.value)}  // this  when you defined variable as const[name,setName]... */}
-        <label>interests:</label>
-        <input type="text" placeholder="enter your interest" value={card.interest} onChange={(e) => setCard(previous => ({ ...previous, interest: e.target.value }))} ></input>
-        <label>now learning:</label>
-        <input type="text" placeholder="now learning:" value={card.learning} onChange={(e) => setCard(previous => ({ ...previous, learning: e.target.value }))} ></input>
-        <button onClick={()=>{
+         
+        <div className="input-row">
+        <label >Name:</label>
+        <input class="profile_input" type="text" placeholder="enter username" value={card.name} onChange={(e) => setCard(previous => ({ ...previous, name: e.target.value }))} ></input>
+        
+        </div>{/* //<input type="text" placeholder="enter username" onChange={(e)=>setName(e.target.value)}  // this  when you defined variable as const[name,setName]... */}
+        <div className="input-row">
+        <label className="lbl">interests:</label>
+        </div>
+        <div className="input-row">
+        <input class="profile_input" type="text" placeholder="enter your interest" value={card.interest} onChange={(e) => setCard(previous => ({ ...previous, interest: e.target.value }))} ></input>
+        </div>
+        <div className="input-row">
+        <label className="lbl">learning now:</label>
+        <input class="profile_input" type="text" placeholder="now learning:" value={card.learning} onChange={(e) => setCard(previous => ({ ...previous, learning: e.target.value }))} ></input>
+        </div>
+        <button className="logbtn" onClick={()=>{
             console.log("clicked2");
             
-            props.swap2()
+            props.swap2("Home")
             props.receive("Name",card.name)
             props.receive("Interest",card.interest)
             props.receive("Learning",card.learning)
@@ -42,7 +52,8 @@ function Profile(props){
             },
             body:finaldata
          }) 
-        }}>save</button>
+        }}>save</button></div>
+        
         {/* <p>{card.interest}</p>
         <p>{card.name}</p> */}
     </>)

@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import Profile from "./Profile"
 import Login from "./Login"
 import Home from "./Home"
+import Content from "./Content";
+import Connect from "./Connect";
 
 
 
@@ -28,7 +30,7 @@ function App() {
       console.log("data found ",obj)// will print a obj 
       
       // return(<Home />)// useeffect must not return aythin 
-      setActivePage("home")
+      setActivePage("Home")
     }
     else
     console.log("effect exicuted,login required")
@@ -38,8 +40,8 @@ function App() {
     setActivePage("Profile")
   }
 
-   function swap2(){
-    setActivePage("Home")
+   function swap2(page){
+    setActivePage(page)
   }
 
 // function receive(eml){
@@ -72,10 +74,22 @@ function saveuser(copycard){
       <Profile swap2={swap2}  receive={receive} saveuser={saveuser} user={user}/>
     )
   }
+  if(activepage==="Feed"){
+    return(
+      <Content />
+
+    )
+
+  }
+  if (activepage==="Connect"){
+    return(
+      <Connect />
+    )
+  }
 
 
   return (
-    <Home />
+    <Home swap2={swap2} />
  )
 
 }

@@ -66,15 +66,30 @@ app.post("/profile",async function(req,res){
 
 app.get("/search",async function(req,res){
 console.log("route exicuted successfully ");
-console.log(req.query);
-console.log(req.url)
+console.log(req.query);//store the url in the object form,  along with any values like terms they are sending
+console.log(req.url)//will show the url in simple text format
 const term =req.query.term;
-const sql=`SELECT name,interest,learning FROM users WHERE learning ILIKE $1 OR interest ILIKE $2`
+const profile_qry=`SELECT name,interest,learning FROM users WHERE learning ILIKE $1 OR interest ILIKE $2`
 const values =[`%${term}%`,`%${term}%`]
+
+const community_qry = `SELECT community_name ,description FROM communities WHERE community_name ILIKE $1 `
+const values1 =[`%${term}%`]
 try{
-const result = await client.query(sql,values)
-res.send(result.rows)
-console.log(result.rows)
+// const result = await client.query(sql,values)
+const[profile_respo,community_respo]=await Promise.all([
+  client.query(profile_qry,values),//returns wrapper object , which contains the metadata of the response and the dactual data inside the row: in array form [{profile1},{profile2}.....]
+  
+
+
+  client.query(community_qry,values1)
+])
+res.json({
+  profiles:(profile_respo.rows),//profile_respo.rows  is actually an array of objects 
+  community:(community_respo.rows)
+  // we are passing an abject to the frontend is json format this abject contaisn two arrays
+})
+console.log(profile_respo.rows)
+console.log(community_respo.rows)
 console.log(`your request for ${req.query.term} reached successfully `)
 
 }
